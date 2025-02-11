@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { AiOutlineHeart, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
+import { FaRegHeart } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
 import { HiMenu } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 
@@ -13,9 +15,9 @@ const Navbar = () => {
   ];
 
   const rightNavItems = [
-    { name: "Favourites", path: "/favourites", icon: AiOutlineHeart },
-    { name: "Cart", path: "/cart", icon: AiOutlineShoppingCart },
-    { name: "Login", path: "/login", icon: AiOutlineUser },
+    { name: "Favourites", path: "/favourites", icon: FaRegHeart },
+    { name: "Cart", path: "/cart", icon: LuShoppingCart },
+    { name: "Login", path: "/login", icon: FaUserPlus },
   ];
 
   const getNavLinkClass = (isActive) =>
@@ -42,7 +44,6 @@ const Navbar = () => {
           )}
         </button>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex md:items-center md:justify-center flex-grow">
           <ul className="flex space-x-8 text-lg">
             {navItems.map((item) => (

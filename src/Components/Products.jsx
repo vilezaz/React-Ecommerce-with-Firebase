@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/Slices/products";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const { products, loading, error } = useSelector((state) => state.products);
@@ -52,11 +53,13 @@ const Products = () => {
               className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col"
             >
               <div className="relative p-3 md:p-4">
+                <Link to={`/product/${product.id}`}>
                 <img
                   src={product.thumbnail}
                   alt={product.title}
                   className="w-full h-40 sm:h-48 object-contain rounded-lg hover:scale-105 transition-transform duration-300"
                 />
+                </Link>
                 <span className="absolute top-1 left-1 bg-gray-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-semibold text-sm">
                   ${product.price}
                 </span>

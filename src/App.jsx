@@ -7,6 +7,7 @@ import FavouritesPage from "./pages/FavouritesPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
 import Footer from "./Components/Footer";
+import ProductDetails from "./pages/ProductDetails";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/favourites" element={<FavouritesPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
       </main>
       
