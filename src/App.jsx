@@ -6,6 +6,7 @@ import ProductsPage from "./pages/ProductsPage";
 import FavouritesPage from "./pages/FavouritesPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
+import Footer from "./Components/Footer";
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+      <Footer />
     </>
   );
 };

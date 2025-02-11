@@ -41,9 +41,9 @@ const Products = () => {
           >
             <div className="relative p-3 md:p-4">
               <img
-                src={product.images[0]}
+                src={product.thumbnail}
                 alt={product.title}
-                className="w-full h-40 sm:h-48 object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+                className="w-full h-40 sm:h-48 object-contain rounded-lg hover:scale-105 transition-transform duration-300"
               />
               <span className="absolute top-1 left-1 bg-gray-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-semibold text-sm">
                 ${product.price}
@@ -68,10 +68,10 @@ const Products = () => {
               </div>
               
               <div className="flex gap-2 md:gap-3 mt-auto pt-2">
-                <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-xs md:text-sm font-medium">
+                <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium">
                   Add to Cart
                 </button>
-                <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 active:scale-95 transition-all duration-200 text-xs md:text-sm font-medium border border-blue-200">
+                <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium border border-blue-200">
                   Favorite
                 </button>
               </div>
