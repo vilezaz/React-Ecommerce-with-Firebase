@@ -7,10 +7,14 @@ const initialState = {
   error: null,
 };
 
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-    const response = await axios.get("https://dummyjson.com/products");
-    console.log(response.data.products);
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("https://dummyjson.com/products");
+      console.log(response.data.products);
     return response.data.products;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
   } 
 );
 
