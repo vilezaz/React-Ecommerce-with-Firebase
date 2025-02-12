@@ -5,9 +5,12 @@ import { FaUserPlus } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { HiMenu } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartProducts = useSelector((state) => state.cart.cart);
+  const fvtProducts = useSelector((state) => state.favourite.favourites);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -15,13 +18,13 @@ const Navbar = () => {
   ];
 
   const rightNavItems = [
-    { name: "Favourites", path: "/favourites", icon: FaRegHeart },
-    { name: "Cart", path: "/cart", icon: LuShoppingCart },
+    { name: "Favourites", path: "/favourites", icon: FaRegHeart, count: fvtProducts.length },
+    { name: "Cart", path: "/cart", icon: LuShoppingCart, count: cartProducts.length },
     { name: "Login", path: "/login", icon: FaUserPlus },
   ];
 
   const getNavLinkClass = (isActive) =>
-    `flex items-center gap-2 hover:text-blue-600 transition-colors duration-300 ${
+    `relative flex items-center gap-2 hover:text-blue-600 transition-colors duration-300 ${
       isActive ? "text-blue-600 font-semibold" : ""
     }`;
 
@@ -61,12 +64,17 @@ const Navbar = () => {
 
         <ul className="hidden md:flex items-center space-x-6 text-lg">
           {rightNavItems.map((item) => (
-            <li key={item.name}>
+            <li key={item.name} className="relative">
               <NavLink
                 to={item.path}
                 className={({ isActive }) => getNavLinkClass(isActive)}
               >
-                <item.icon className="text-xl" />
+                <item.icon className="text-2xl" />
+                {item.count > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                    {item.count}
+                  </span>
+                )}
               </NavLink>
             </li>
           ))}
@@ -98,6 +106,11 @@ const Navbar = () => {
                 >
                   <item.icon className="text-xl" />
                   <span>{item.name}</span>
+                  {item.count > 0 && (
+                    <span className="ml-2 bg-red-500 text-white text-xs font-bold rounded-full px-1">
+                      {item.count}
+                    </span>
+                  )}
                 </NavLink>
               </li>
             ))}
