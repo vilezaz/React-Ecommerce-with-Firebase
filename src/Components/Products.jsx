@@ -3,14 +3,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/Slices/products";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { addToCart } from "../store/Slices/cart";
+import toast from "react-hot-toast";
+import { addToFavourites, removeFromFavourites } from "../store/Slices/favourite";
 
 const Products = () => {
   const { products, loading, error } = useSelector((state) => state.products);
+  const favourites = useSelector((state) => state.favourite.favourites);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success("added to cart!");
+  };
+
+  const handleFvtBtnClick = (product) => {
+    alreadyInFavourites(product)
+      ? handleRemoveFromFavourites(product)
+      : handleAddToFavourites(product);
+  };
+
+  const handleAddToFavourites = (product) => {
+    if (!alreadyInFavourites(product)) {
+      dispatch(addToFavourites(product));
+      toast.success("added to favourites");
+    }
+  };
+
+  const handleRemoveFromFavourites = (product) => {
+    if (alreadyInFavourites(product)) {
+      dispatch(removeFromFavourites(product));
+      toast.error("favourite removed!");
+    }
+  };
+
+  const alreadyInFavourites = (product) =>
+    favourites.some((fav) => fav.id === product.id);
 
   const StarRating = ({ rating }) => {
     const totalStars = 5;
@@ -47,18 +79,17 @@ const Products = () => {
 
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          {products.map((product, index) => (
+          {products.map((product) => (
             <div
-              key={index}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col"
-            >
+              key={product.id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col">
               <div className="relative p-3 md:p-4">
                 <Link to={`/product/${product.id}`}>
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="w-full h-40 sm:h-48 object-contain rounded-lg hover:scale-105 transition-transform duration-300"
-                />
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-full h-40 sm:h-48 object-contain rounded-lg hover:scale-105 transition-transform duration-300"
+                  />
                 </Link>
                 <span className="absolute top-1 left-1 bg-gray-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full font-semibold text-sm">
                   ${product.price}
@@ -68,8 +99,7 @@ const Products = () => {
                     product.availabilityStatus === "In Stock"
                       ? "bg-green-50 text-green-600"
                       : "bg-red-50 text-red-600"
-                  } px-2 md:px-3 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-medium`}
-                >
+                  } px-2 md:px-3 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-medium`}>
                   {product.availabilityStatus}
                 </span>
               </div>
@@ -83,11 +113,13 @@ const Products = () => {
                 </div>
 
                 <div className="flex gap-2 md:gap-3 mt-auto pt-2">
-                  <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium">
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="flex-1 cursor-pointer px-3 md:px-4 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium">
                     Add to Cart
                   </button>
-                  <button className="flex-1 px-3 md:px-4 py-2 md:py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium border border-blue-200">
-                    Favorite
+                  <button onClick={() => handleFvtBtnClick(product)} className={`flex-1 cursor-pointer px-3 md:px-4 py-2 md:py-2.5 bg-white rounded-lg active:scale-95 transition-all duration-200 text-sm md:text-base font-medium border ${alreadyInFavourites(product) ? "text-green-600 hover:bg-green-50 border-green-200" : "text-blue-600 hover:bg-blue-50 border-blue-200"}`}>
+                    {alreadyInFavourites(product) ? "Loved" : "Add Favourite"}
                   </button>
                 </div>
               </div>

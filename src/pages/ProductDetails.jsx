@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
 import axios from "axios";
+import { addToCart } from "../store/Slices/cart";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success("added to cart!");
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,6 +36,8 @@ const ProductDetails = () => {
 
     fetchProduct();
   }, [id]);
+
+
 
   if (loading) {
     return (
@@ -118,11 +130,11 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex gap-6 mt-6">
-            <button className="px-3 md:px-8 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium">
+            <button onClick={() => handleAddToCart(product)} className="px-3 cursor-pointer md:px-8 py-2 md:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium">
               Add to Cart
             </button>
-            <button className="px-3 md:px-8 py-2 md:py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium border border-blue-200">
-              Favourite
+            <button onClick={() => navigate("/cart")} className="px-3 cursor-pointer md:px-8 py-2 md:py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 active:scale-95 transition-all duration-200 text-sm md:text-base font-medium border border-blue-200">
+              Go to Cart
             </button>
           </div>
         </div>
