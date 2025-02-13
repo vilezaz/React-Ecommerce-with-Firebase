@@ -5,12 +5,16 @@ import { FaUserPlus } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { HiMenu } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../store/Slices/auth";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cartProducts = useSelector((state) => state.cart.cart);
   const fvtProducts = useSelector((state) => state.favourite.favourites);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -19,14 +23,26 @@ const Navbar = () => {
 
   const rightNavItems = [
     { name: "Favourites", path: "/favourites", icon: FaRegHeart, count: fvtProducts.length },
-    { name: "Cart", path: "/cart", icon: LuShoppingCart, count: cartProducts.length },
-    { name: "Login", path: "/login", icon: FaUserPlus },
+    { name: "Cart", path: "/cart", icon: LuShoppingCart, count: cartProducts.length }
   ];
 
   const getNavLinkClass = (isActive) =>
     `relative flex items-center gap-2 hover:text-blue-600 transition-colors duration-300 ${
       isActive ? "text-blue-600 font-semibold" : ""
     }`;
+
+    const handleLogout = () => {
+      setIsMenuOpen(false);
+      dispatch(logoutUser())
+        .unwrap()
+        .then(() => {
+          toast.success("Logout successful!");
+        })
+        .catch((error) => {
+          toast.error("Logout failed! " + error.message);
+        });
+    };
+    
 
   return (
     <nav className="px-4 md:px-8 lg:px-28 py-5 shadow-lg fixed w-full z-50 bg-white">
@@ -78,6 +94,22 @@ const Navbar = () => {
               </NavLink>
             </li>
           ))}
+          {user ? (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/login" className={({ isActive }) => getNavLinkClass(isActive)}>
+                <FaUserPlus className="text-2xl" />
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         <div
@@ -114,6 +146,22 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ))}
+            {user ? (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/login" className={({ isActive }) => getNavLinkClass(isActive)}>
+                <FaUserPlus className="text-2xl" onClick={() => setIsMenuOpen(false)} />
+              </NavLink>
+            </li>
+          )}
           </ul>
         </div>
       </div>

@@ -11,7 +11,7 @@ const initialState = {
     error: null
 }
 
-export const registerUser = createAsyncThunk("auth/registerUser", async ({ email, password, username }, thunkAPI) => {
+export const registerUser = createAsyncThunk("auth/registerUser", async ({ email, password }, thunkAPI) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -52,9 +52,13 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, thunkAPI
 export const signInWithGoogle = createAsyncThunk("auth/googleLogin", async (_, thunkAPI) => {
     try {
         const result = await signInWithPopup(auth, provider);
-        toast.success("Google Sign-In Successful!");
+        const user = result.user;
+        return {
+            uid: user.uid,
+            email: user.email
+        }
     } catch (error) {
-        toast.error(`Google Sign-In Error: ${error.message}`);
+        return thunkAPI.rejectWithValue(error.message);
     }
 });
 

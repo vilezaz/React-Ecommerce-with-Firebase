@@ -5,7 +5,6 @@ import { registerUser, setUser, signInWithGoogle } from '../store/Slices/auth';
 import { toast } from 'react-toastify';
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -18,7 +17,7 @@ const RegisterPage = () => {
     if(password !== confirmPassword) {
       return alert("Passwords do not match!");
     }
-    dispatch(registerUser({ email, password, username }))
+    dispatch(registerUser({ email, password }))
     .unwrap()
     .then(()=> {
       setEmail("");
@@ -33,7 +32,7 @@ const RegisterPage = () => {
         await dispatch(signInWithGoogle()).unwrap();
         toast.success("Login successful!");
       } catch (error) {
-        toast.error(error || "Failed to sign in with Google");
+        toast.error("Failed to sign in with Google");
       }
     }
 
@@ -48,17 +47,6 @@ const RegisterPage = () => {
       <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-100">
         <h1 className="text-4xl font-bold text-center mb-4 text-blue-600">Create Account</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input 
-              type="username" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="username"
-              disabled={loading}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
-              required
-            />
-          </div>
           <div>
             <input 
               type="email" 
