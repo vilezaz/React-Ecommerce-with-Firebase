@@ -48,7 +48,7 @@ const Navbar = () => {
     <nav className="px-4 md:px-8 lg:px-28 py-5 shadow-lg fixed w-full z-50 bg-white">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <h1 className="text-lg md:text-2xl font-bold tracking-wide">
-          Ecommerce
+          FlashCart
         </h1>
 
         <button
@@ -98,7 +98,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
+                className="bg-red-500 cursor-pointer text-white px-4 py-1 rounded-md hover:bg-red-600"
               >
                 Logout
               </button>

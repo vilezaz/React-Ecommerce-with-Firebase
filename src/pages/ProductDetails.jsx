@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { BsCartPlus } from "react-icons/bs";
 import axios from "axios";
 import { addToCart } from "../store/Slices/cart";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -14,8 +13,13 @@ const ProductDetails = () => {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   const handleAddToCart = (product) => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
     dispatch(addToCart(product));
     toast.success("added to cart!");
   };

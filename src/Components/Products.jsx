@@ -9,6 +9,7 @@ import { addToFavourites, removeFromFavourites } from "../store/Slices/favourite
 
 const Products = () => {
   const { products, loading, error } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.auth);
   const favourites = useSelector((state) => state.favourite.favourites);
   const dispatch = useDispatch();
 
@@ -17,11 +18,19 @@ const Products = () => {
   }, [dispatch]);
 
   const handleAddToCart = (product) => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
     dispatch(addToCart(product));
     toast.success("added to cart!");
   };
 
   const handleFvtBtnClick = (product) => {
+    if (!user) {
+      toast.error("Please login to add items to favourites");
+      return;
+    }
     alreadyInFavourites(product)
       ? handleRemoveFromFavourites(product)
       : handleAddToFavourites(product);
@@ -78,6 +87,8 @@ const Products = () => {
       )}
 
       {!loading && !error && (
+        <>
+        <h2 className="text-center md:text-4xl text-2xl font-bold text-gray-900 mb-14">Flash Deals</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {products.map((product) => (
             <div
@@ -126,6 +137,7 @@ const Products = () => {
             </div>
           ))}
         </div>
+        </>
       )}
     </div>
   );

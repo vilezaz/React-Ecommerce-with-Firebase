@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth } from '../../firebase/firebaseConfig';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { clearCart } from "./cart";
+import { clearFavourites } from "./favourite";
 
 const provider = new GoogleAuthProvider();
 
@@ -40,12 +42,14 @@ export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, pass
     }
 });
 
-export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, thunkAPI) => {
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, {dispatch ,rejectWithValue}) => {
     try {
         await signOut(auth);
+        dispatch(clearCart());
+        dispatch(clearFavourites());
         return null;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.message);
+        return rejectWithValue(error.message);
     }
 });
 

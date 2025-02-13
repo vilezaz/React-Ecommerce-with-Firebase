@@ -19,10 +19,13 @@ const favouritesReducer = createSlice({
         (recipe) => recipe.id !== action.payload.id
       );
     },
+    clearFavourites: (state) => {
+      state.favourites = [];
+    },
   },
 });
 
-export const { addToFavourites, removeFromFavourites } =
+export const { addToFavourites, removeFromFavourites, clearFavourites } =
   favouritesReducer.actions;
 
 export default favouritesReducer.reducer;
