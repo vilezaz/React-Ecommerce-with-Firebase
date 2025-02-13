@@ -10,6 +10,8 @@ import Footer from "./Components/Footer";
 import ProductDetails from "./pages/ProductDetails";
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
+import ScrollToTop from "./Components/ScrollToTop";
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
   return (
@@ -17,6 +19,7 @@ const App = () => {
       <ToastContainer />
       <Toaster />
       <Navbar />
+      <ScrollToTop  />
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -24,6 +27,7 @@ const App = () => {
           <Route path="/favourites" element={<FavouritesPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
       </main>
