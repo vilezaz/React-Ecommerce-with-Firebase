@@ -107,11 +107,9 @@ const CartPage = () => {
             <p>SubTotal</p>
             <p>${(parseFloat(getTotalAmount())).toFixed(2)}</p>
           </div>
-          <Link to={"/checkout"}>
             <button className="w-full bg-blue-600 cursor-pointer text-white py-3 rounded hover:bg-blue-700">
               Go to Checkout
             </button>
-          </Link>
         </div>
       </div>
     </div>

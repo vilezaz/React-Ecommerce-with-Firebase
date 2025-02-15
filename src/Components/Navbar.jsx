@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
@@ -15,6 +15,7 @@ const Navbar = () => {
   const fvtProducts = useSelector((state) => state.favourite.favourites);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -37,9 +38,10 @@ const Navbar = () => {
         .unwrap()
         .then(() => {
           toast.success("Logout successful!");
+          navigate("/");
         })
         .catch((error) => {
-          toast.error("Logout failed! " + error.message);
+          toast.error("Logout failed!");
         });
     };
     
