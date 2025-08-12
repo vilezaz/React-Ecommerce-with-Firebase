@@ -14,11 +14,11 @@ const HeroSec = () => {
             Discover the best products at unbeatable prices. Shop now and transform your experience.
           </p>
           
-          <div className="mt-6 flex justify-center md:justify-start gap-5">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+          <div className="mt-6 flex justify-center md:justify-start gap-4">
+            <button className="px-4 cursor-pointer py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
               Shop Now
             </button>
-            <button className="px-6 py-2 border border-gray-700 text-gray-800 rounded-lg font-medium hover:bg-gray-200 transition">
+            <button className="px-4 cursor-pointer py-2 border border-gray-700 text-gray-800 rounded-lg font-medium hover:bg-gray-200 transition">
               Learn More
             </button>
           </div>
